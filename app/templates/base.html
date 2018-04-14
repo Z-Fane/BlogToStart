@@ -1,0 +1,55 @@
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}">
+    {#    <link rel="stylesheet" href="../static/base.css">#}
+    <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<div class="container clearfix">
+    <div class="header clearfix">
+        <div class="site_title">
+            <h1>
+                <a href="/">张帆博客</a>
+            </h1>
+        </div>
+        <div class="description">
+            <p>ZFANE , WEB DEVELOPER</p>
+            <div class="my_socials">
+                {#                <a href="http://instagram.com/hi_caicai" title="instagram">#}
+                {#                    <i class="fa fa-instagram"></i>#}
+                {#                </a>#}
+                {#                <a href="https://telegram.me/hepo" title="telegram">#}
+                {#                    <i class="fa fa-send-o"></i>#}
+                {#                </a>#}
+                {#                <a href="https://twitter.com/hi_caicai" title="twitter">#}
+                {#                    <i class="fa fa-twitter"></i>#}
+                {#                </a>#}
+                {#                <a href="https://dribbble.com/hicaicai" title="dribbble">#}
+                {#                    <i class="fa fa-dribbble"></i>#}
+                {#                </a>#}
+                <a href="https://weibo.com/u/3211727291/" title="weibo">
+                    <i class="fa fa-weibo"></i>
+                </a>
+                <a href="https://github.com/Z-Fane" title="github">
+                    <i class="fa fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    {% block content %}
+    {% endblock %}
+</div>
+<div class="nav">
+    <ul>
+        <li><a href="{{ url_for('home.index') }}">首页</a></li>
+        <li><a href="{{ url_for('home.archive') }}">归档</a></li>
+        <li><a href="#">订阅</a></li>
+    </ul>
+    <div class="autograph">
+        Designed by CaiCai, Proudly published with Flask！
+    </div>
+
+</div>
+</body>
+</html>

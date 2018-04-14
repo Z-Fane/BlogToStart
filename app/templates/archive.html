@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="post_list">
+        {% for posts_key in post_list %}
+            <div class="list_title">
+                {{ posts_key }}
+            </div>
+            <div class="archive">
+                {% for post in post_list[posts_key] %}
+                    <div class="archive_post clearfix">
+                        <div class="float_left">
+                            <a href="{{ url_for('post.detail',post_id=post.id) }}">{{ post.title }}</a>
+                        </div>
+                        <div class="float_right span_time">
+                            <span>{{ post.create_time.strftime('%m-%d') }}</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

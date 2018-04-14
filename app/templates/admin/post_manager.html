@@ -1,0 +1,53 @@
+{% extends 'admin/base.html' %}
+{% block admin_content %}
+    <div class="content">
+        <h3>文档列表</h3>
+        <div class="operater">
+            <div class="operater_left clearfix">
+                <div class="operater_button float_left"><a href="{{ url_for('post.create_post') }}">新增</a></div>
+                <div class="operater_button float_left">启用</div>
+                <div class="operater_button float_left">禁用</div>
+                <div class="operater_button float_left">移动</div>
+                <div class="operater_button float_left">复制</div>
+                <div class="operater_button float_left">粘贴</div>
+                <div class="operater_button float_left">删除</div>
+                <div class="operater_button float_left">排序</div>
+            </div>
+            <div class="operater_right">
+
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>编号</th>
+                <th>标题</th>
+                <th>类型</th>
+                <th>分类</th>
+                <th>最后更新</th>
+                <th>状态</th>
+                <th>浏览</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for post in pagination.items %}
+                <tr>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>类型</td>
+                    <td>{{ post.category }}</td>
+                    <td>{{ post.updated_at }}</td>
+                    <td>{{ post.status }}</td>
+                    <td>{{ post.views }}</td>
+                    <td>
+                        <a href="{{ url_for('post.edit_post',post_id=post.id) }}">编辑</a>
+                        <a href="{{ url_for('post.del_post',post_id=post.id) }}">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

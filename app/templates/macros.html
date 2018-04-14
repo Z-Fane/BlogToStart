@@ -1,0 +1,36 @@
+{% macro render_form(form,url) %}
+    <form action="{{ url }}" method="post" class="form">
+        {{ form.hidden_tag() }}
+        {% for field in form %}
+            <div class="form_field">
+                {% if field.type == 'CSRFTokenField' %}
+                    {{ '' }}
+                {% else %}
+                    {{ field.label(class='formlabel') }}
+                    {{ field(class='forminput') }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+        <div class="form_submit">
+            <input type="submit" value="提交" class="form_submit">
+        </div>
+    </form>
+{% endmacro %}
+{% macro render_pagination(pagination, endpoint) %}
+
+    <div {% if not pagination.has_prev and not pagination.has_next %}class="disabled"{% else %}
+         class="nav-pagination"{% endif %}>
+        <div class="{{ 'disabled' if not pagination.has_prev  else 'posts_prev'}}"><a
+                href="{{ url_for(endpoint, page=pagination.prev_num) if pagination.has_prev else '#' }}">返回上一页</a>
+        </div>
+        <div class="{{'disabled'if not pagination.has_next else 'posts_next'   }}"><a
+                href="{{ url_for(endpoint, page=pagination.next_num) if pagination.has_next else '#' }}">阅读更多文章</a>
+        </div>
+    </div>
+
+{% endmacro %}

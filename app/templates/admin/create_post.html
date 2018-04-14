@@ -1,0 +1,72 @@
+{% extends 'admin/base.html' %}
+{% block admin_head %}
+    {#    <script src="https://cdn.ckeditor.com/ckeditor5/1.0.0-beta.1/classic/ckeditor.js"></script>#}
+{% endblock %}
+{% block admin_content %}
+    <div class="content">
+        <form action="{% if type==1 %}
+        {{ url_for('post.edit_post',post_id=post_id) }}
+        {% else %}
+        {{ url_for('post.create_post') }}
+        {% endif %}" method="post" class="form">
+            {{ form.hidden_tag() }}
+            <div class="form_field">
+                {{ form.title(class="form-control", placeholder=form.title.label.text ) }}
+            </div>
+            <div class="container clearfix">
+                <div class="wrap">
+                    <div class="main">
+                        {{ form.content(only_input=True, class="input-markdown", placeholder=form.content.label.text) }}
+                    </div>
+                </div>
+                <div class="form_right">
+                    {{ form.content(only_preview=True) }}
+                </div>
+            </div>
+            <div class="form_field">
+                <label class="form-label">文章标签：</label>
+                <div class="txt-box">
+                    <input type="hidden" id="hidTags">
+                    <div class="tag">
+                        <span class="name" contenteditable="true"></span>
+                        <i class="icon-guanbi"></i>
+                    </div>
+                    <button class="addtag">
+                        <i class="fa fa-plus-square"></i>
+                        添加标签
+                    </button>
+                </div>
+            </div>
+            <div class="form_field">
+                <label>文章分类：</label>
+                <div class="txt-box">
+                    <select name="category" id="category">
+                        {% if categories.__len__!=0 %}
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.name }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                    <input type="hidden" id="hidTags">
+                    <div class="tag">
+                        <span class="name" contenteditable="true"></span>
+                        <i class="icon-guanbi"></i>
+                    </div>
+                    <button class="addtag">
+                        <i class="fa fa-plus-square"></i>
+                        添加分类
+                    </button>
+                </div>
+            </div>
+            <div class="form_field">
+                <label>私密文章：</label>
+            </div>
+            <div class="form_submit">
+                <input type="submit" value="提交" class="form_submit">
+            </div>
+        </form>
+
+    </div>
+
+    {{ pagedown.include_pagedown() }}
+{% endblock %}
