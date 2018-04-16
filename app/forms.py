@@ -2,10 +2,10 @@ from datetime import datetime
 
 from flask_pagedown.fields import PageDownField
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField,SubmitField,PasswordField
+from wtforms import StringField, TextAreaField,SubmitField,PasswordField,SelectField
 from wtforms.validators import DataRequired, Length, Regexp, EqualTo, ValidationError
 
-from app.models import Author, db, Comment, Post
+from app.models import Author, db, Comment, Post, Category, Tag
 
 
 class CommentForm(FlaskForm):
@@ -36,9 +36,6 @@ class LoginForm(FlaskForm):
         if author and not author.check_password(field.data):
             raise ValidationError('Password Error')
 
-
-
-
 class RegisterForm(FlaskForm):
     username=StringField('UserName')
     email=StringField('Email')
@@ -64,16 +61,23 @@ class RegisterForm(FlaskForm):
 class PostForm(FlaskForm):
     title=StringField('标题')
     content=PageDownField('内容')
+    category=SelectField('分类')
+    tags=StringField('标签')
 
     def create_post(self,author_id):
         post=Post()
         post.author_id=author_id
-        self.populate_obj(post)
-        # post.title=self.title.data
-        # post.content=self.content.data
-        # post.author_id=author_id
-        # post.category_id=category_id
-        # post.tag=tag
+
+        post.title=self.title.data
+        post.content=self.content.data
+        post.author_id=author_id
+        category=Category.query.filter_by(name=self.category.data).first()
+        post.category=category
+        tags = self.tags.data.split(',')
+        for tag_name in tags:
+            tag = Tag()
+            tag.name = tag_name
+            post.tag.append(tag)
         db.session.add(post)
         db.session.commit()
         return post
@@ -82,3 +86,12 @@ class PostForm(FlaskForm):
         db.session.add(post)
         db.session.commit()
         return post
+class CategoryForm(FlaskForm):
+    name=StringField('分类名称')
+
+    def create_category(self):
+        category=Category()
+        category.name=self.name.data
+        db.session.add(category)
+        db.session.commit()
+

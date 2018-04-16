@@ -31,4 +31,16 @@ def postByAuthor(author_id):
 @home.route('tag/<int:tag_id>')
 def postByTag(tag_id):
     tag = Tag.query.filter_by(id=tag_id).first_or_404()
-    return render_template('archive.html', title='321', posts=tag.post)
+    post_list={}
+    # years = db.session.query(func.year(Post.create_time).label('year')).group_by('year').all()
+    # for x in years:
+    #     post_list[x[0]] = (Post.query.filter(func.year(Post.create_time) == x).all())
+    posts=tag.Post.order_by(Post.create_time.desc()).all()
+
+    for post in posts:
+        if post_list.get(post.create_time.year) is None:
+            post_list[post.create_time.year]=[]
+            post_list[post.create_time.year].append(post)
+        else:
+            post_list[post.create_time.year].append(post)
+    return render_template('archive.html', title='321', post_list=post_list)

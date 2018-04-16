@@ -3,7 +3,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, flash, url_for, redirect
 from flask_login import current_user, login_required
 
-from app.forms import CommentForm, PostForm
+from app.forms import CommentForm, PostForm, CategoryForm
 from app.models import Comment, db, Post, Category
 
 post = Blueprint('post', __name__, url_prefix='/post')
@@ -24,10 +24,11 @@ def detail(post_id):
 def create_post():
     form = PostForm()
     categories=Category.query.all()
+    form.category.choices=[(c.name, c.name) for c in categories]
     if form.validate_on_submit():
         form.create_post(current_user.id)
         return redirect(url_for('admin.index'))
-    return render_template('admin/create_post.html', form=form, type=0,categories=categories)
+    return render_template('admin/create_post.html', form=form, type=0)
 
 
 @post.route('/<int:post_id>/edit', methods=['get', 'post'])
@@ -47,4 +48,14 @@ def del_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return redirect(url_for('admin.manager'))
+
+@post.route('/create_category',methods=['post','get'])
+@login_required
+def create_category():
+    form=CategoryForm()
+    if form.validate_on_submit():
+        form.create_category()
+        return redirect(url_for('admin.index'))
+    return render_template('admin/create_category.html',form=form)
+
 

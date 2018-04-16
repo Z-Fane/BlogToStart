@@ -108,10 +108,10 @@ class Category(Base):
     name = db.Column(db.String(100), nullable=False)
 
 
+
 class Tag(Base):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String(100), nullable=False)
-    post = db.relationship('Post', secondary=tags, backref=db.backref('Tag', lazy='dynamic'))
+    name = db.Column(db.String(100), nullable=False,unique=True)
 
 
 class Comment(Base):

@@ -1,0 +1,8 @@
+{% extends 'admin/base.html' %}
+{% from 'macros.html' import render_form %}
+{% block admin_content %}
+    <div class="content">
+        {{ render_form(form,url_for('post.create_category')) }}
+
+    </div>
+{% endblock %}

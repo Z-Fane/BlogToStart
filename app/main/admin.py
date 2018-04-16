@@ -49,5 +49,6 @@ def index():
 @login_required
 def manager():
     page = request.args.get('page', default=1, type=int)
-    pagination = Post.query.paginate(page=page, per_page=current_app.config['ADMIN_PER_PAGE'], error_out=False)
-    return render_template('admin/post_manager.html', pagination=pagination)
+    # pagination = Post.query.paginate(page=page, per_page=current_app.config['ADMIN_PER_PAGE'], error_out=False)
+    posts=Post.query.all()
+    return render_template('admin/post_manager.html', posts=posts)
